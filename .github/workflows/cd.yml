@@ -12,22 +12,8 @@ jobs:
 
     steps:
       - name: Pull Docker image
-        run: sudo docker pull robiul692/cicdpip:latest
-
-      - name: Delete Old Docker Container
+        run: docker pull robiul692/cicdpip:latest
+      - name: Delete Old docker container
         run: docker rm -f cicdpip-container || true
-
       - name: Run Docker Container
         run: docker run -d -p 8080:8080 --name cicdpip-container robiul692/cicdpip
-
-      - name: Set up Docker Login
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-
-      - name: Build the Docker Image
-        run: docker build -t robiul692/cicdpip .
-
-      - name: Push to DockerHub
-        run: docker push robiul692/cicdpip:latest
